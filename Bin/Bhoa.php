@@ -177,8 +177,10 @@ class Bhoa extends \Hoa\Console\Dispatcher\Kit {
 
         if('hoa://' == substr($_root, 0, 6))
             $_root = resolve($_root);
-        else
-            $_root = $root = realpath($root);
+        else {
+            $root  = realpath($root);
+            $_root = $root . DS;
+        }
 
         echo 'Server is up, on ' . $server->getSocket() . '!', "\n",
              'Root: ' . $root . '.', "\n\n";
@@ -227,21 +229,21 @@ class Bhoa extends \Hoa\Console\Dispatcher\Kit {
             );
 
             $time   = $ttime;
-            $target = $_root . DS . $url;
+            $target = $_root . $url;
 
             if(true === file_exists($target)) {
 
                 // Listing.
                 if(true === is_dir($target)) {
 
-                    if(file_exists($_root . DS . $url . DS . 'index.php')) {
+                    if(file_exists($_root . $url . DS . 'index.php')) {
 
-                        $target = $_root . DS . $url . DS . 'index.php';
+                        $target = $_root . $url . DS . 'index.php';
                         $url    = 'index.php';
                     }
-                    elseif(file_exists($_root . DS . $url . DS . 'index.html')) {
+                    elseif(file_exists($_root . $url . DS . 'index.html')) {
 
-                        $target = $_root . DS . $url . DS . 'index.html';
+                        $target = $_root . $url . DS . 'index.html';
                         $url    = 'index.html';
                     }
                     else {
@@ -331,7 +333,7 @@ class Bhoa extends \Hoa\Console\Dispatcher\Kit {
             if(   !isset($pathinfo['extension'])
                || 'php' != $pathinfo['extension']) {
 
-                $script_filename = $_root . DS . 'index.php';
+                $script_filename = $_root . 'index.php';
                 $script_name     = DS . 'index.php';
             }
 
