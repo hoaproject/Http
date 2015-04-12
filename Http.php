@@ -196,7 +196,7 @@ abstract class Http implements \ArrayAccess, \IteratorAggregate, \Countable {
         if (isset($headers['COOKIE']) && !empty($headers['COOKIE'])) {
           foreach (split(';', $headers['COOKIE']) as $string) {
             $kv = split('=', $string);
-            $out[ltrim($kv[0])] = urldecode($kv[1]);
+            $out[ltrim($kv[0])] = rawurldecode($kv[1]);
           }
         }
 
