@@ -188,7 +188,7 @@ abstract class Http implements \ArrayAccess, \IteratorAggregate, \Countable {
      * @return  array
      * @author  Kevin Olson <acijdazz@gmail.com>
      */
-    public function getCookies ( ) {
+    public function getCookieParams ( ) {
 
         $out = array();
         $headers = $this->getHeadersFormatted();
