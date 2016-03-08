@@ -79,45 +79,48 @@ class Runtime
      */
     public static function getData($extended = true)
     {
-        switch (static::getMethod()) {
+        $input = null;
+        $method = static::getMethod();
+        $contentType = static::getHeader('Content-Type');
+
+        // map data
+        switch ($method) {
             case Request::METHOD_GET:
-                return $_GET;
-
-            case Request::METHOD_POST:
-                $contentType = static::getHeader('Content-Type');
-
-                switch ($contentType) {
-                    case 'application/x-www-form-urlencoded':
-                        return $_POST;
-
-                    case 'application/json':
-                        $input = file_get_contents('php://input');
-
-                        if (true !== $extended ||
-                            true !== function_exists('json_decode')) {
-                            return $input;
-                        }
-
-                        $json = json_decode($input, true);
-
-                        if (JSON_ERROR_NONE !== json_last_error()) {
-                            return $input;
-                        }
-
-                        return $json;
-
-                    default:
-                        return file_get_contents('php://input');
-                }
-
+                $input = $_GET;
                 break;
 
-            case Request::METHOD_PUT:
-            case Request::METHOD_PATCH:
-                return file_get_contents('php://input');
+            case Request::METHOD_POST:
+                $input = $_POST;
+                break;
+        }
+
+        switch ($contentType) {
+            case 'application/x-www-form-urlencoded':
+                if (null === $input) {
+                    $content = file_get_contents('php://input');
+                    parse_str($content, $input);
+                }
+
+                return $input;
+
+            case 'application/json':
+                $input = file_get_contents('php://input');
+
+                if (true !== $extended ||
+                    true !== function_exists('json_decode')) {
+                    return $input;
+                }
+
+                $json = json_decode($input, true);
+
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    return $input;
+                }
+
+                return $json;
 
             default:
-                return null;
+                return file_get_contents('php://input');
         }
     }
 
