@@ -612,7 +612,7 @@ class Response extends Http implements Stream\IStream\Out, Stream\IStream\Buffer
      */
     public function writeString(string $string)
     {
-        echo (string) $string;
+        echo $string;
 
         return;
     }
@@ -632,7 +632,7 @@ class Response extends Http implements Stream\IStream\Out, Stream\IStream\Buffer
      */
     public function writeBoolean(bool $boolean)
     {
-        echo (string) (bool) $boolean;
+        echo (string) $boolean;
 
         return;
     }
@@ -645,7 +645,7 @@ class Response extends Http implements Stream\IStream\Out, Stream\IStream\Buffer
      */
     public function writeInteger(int $integer)
     {
-        echo (string) (int) $integer;
+        echo (string) $integer;
 
         return;
     }
