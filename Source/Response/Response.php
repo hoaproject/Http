@@ -658,7 +658,7 @@ class Response extends Http implements Stream\IStream\Out, Stream\IStream\Buffer
      */
     public function writeFloat(float $float)
     {
-        echo (string) (float) $float;
+        echo (string) $float;
 
         return;
     }
