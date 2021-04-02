@@ -749,7 +749,9 @@ class Response extends Http implements Stream\IStream\Out, Stream\IStream\Buffer
      */
     public function __destruct()
     {
-        $last = current(self::$_stack);
+        if (false === $last = current(self::$_stack)) {
+            return;
+        }
 
         if ($this->getHash() != $last[0]) {
             return;
